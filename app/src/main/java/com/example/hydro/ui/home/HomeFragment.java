@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
     private void getWeatherForLocation(double latitude, double longitude) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude + "&lon=" + longitude + "&appid={API key}";
+        String url = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude + "&lon=" + longitude + "&appid=" + getResources().getString(R.string.openweathermap_api_key);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -69,6 +69,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
+                        Log.e("TEST", response.toString());
                     }
                 }, new Response.ErrorListener() {
             @Override
