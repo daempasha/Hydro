@@ -14,7 +14,7 @@ public class Weather {
     public String humidity;
 
     public String description;
-    public String icon;
+    public String iconUrl;
 
     public Weather(String weatherResponse){
         String celsiusSymbol = "°";
@@ -32,7 +32,7 @@ public class Weather {
 
             JSONObject weatherData = weatherObject.getJSONObject(0);
             this.description = weatherData.getString("main");
-            this.icon = weatherData.getString("icon");
+            this.iconUrl = "https://openweathermap.org/img/wn/" + weatherData.getString("icon") + "@4x.png";
 
         } catch (JSONException e) {
             e.printStackTrace();

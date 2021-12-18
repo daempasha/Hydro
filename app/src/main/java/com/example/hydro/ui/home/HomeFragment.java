@@ -40,6 +40,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,7 +83,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         Weather weather = new Weather(response);
-                        updateWeather(weather.city, weather.temperature, weather.description);
+                        updateWeather(weather.city, weather.temperature, weather.description, weather.iconUrl);
 
 
                     }
@@ -98,10 +99,12 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void updateWeather(String city, String temperature, String description){
+    private void updateWeather(String city, String temperature, String description, String iconUrl){
         cityText.setText(city);
         temperatureText.setText(temperature);
         weatherDescription.setText(description);
+        Picasso.get().load(iconUrl).into(weatherIcon);
+
     }
 
 
