@@ -57,9 +57,11 @@ public class HomeFragment extends Fragment {
 
     private TextView cityText;
     private TextView temperatureText;
-    private TextView weatherDescription;
-    private ImageView weatherIcon;
-    private TextView windSpeed;
+    private TextView weatherDescriptionText;
+    private ImageView weatherIconText;
+    private TextView windSpeedText;
+    private TextView humidityText;
+    private TextView pressureText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +85,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         Weather weather = new Weather(response);
-                        updateWeather(weather.city, weather.temperature, weather.description, weather.iconUrl);
+                        updateWeather(weather.city, weather.temperature, weather.description, weather.iconUrl, weather.windSpeed, weather.humidity, weather.pressure);
 
 
                     }
@@ -99,11 +101,14 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void updateWeather(String city, String temperature, String description, String iconUrl){
-        cityText.setText(city);
-        temperatureText.setText(temperature);
-        weatherDescription.setText(description);
-        Picasso.get().load(iconUrl).into(weatherIcon);
+    private void updateWeather(String cityValue, String temperatureValue, String descriptionValue, String iconUrl, String windSpeedValue, String humidityValue, String pressureValue){
+        cityText.setText(cityValue);
+        temperatureText.setText(temperatureValue);
+        weatherDescriptionText.setText(descriptionValue);
+        windSpeedText.setText(windSpeedValue);
+        humidityText.setText(humidityValue);
+        pressureText.setText(pressureValue);
+        Picasso.get().load(iconUrl).into(weatherIconText);
 
     }
 
@@ -157,9 +162,11 @@ public class HomeFragment extends Fragment {
         //Get views
         this.cityText = binding.city;
         this.temperatureText = binding.temperature;
-        this.weatherDescription = binding.description;
-        this.weatherIcon = binding.weatherIcon;
-        this.windSpeed = binding.windSpeed;
+        this.weatherDescriptionText = binding.description;
+        this.weatherIconText = binding.weatherIcon;
+        this.windSpeedText = binding.windSpeed;
+        this.humidityText = binding.humidity;
+        this.pressureText = binding.pressure;
 
 
 /*        final TextView textView = binding.textHome;
