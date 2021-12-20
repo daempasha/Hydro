@@ -6,12 +6,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +34,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hydro.R;
+import com.example.hydro.Weather;
 import com.example.hydro.databinding.FragmentHomeBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class HomeFragment extends Fragment {
@@ -47,6 +54,14 @@ public class HomeFragment extends Fragment {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
+
+    private TextView cityText;
+    private TextView temperatureText;
+    private TextView weatherDescriptionText;
+    private ImageView weatherIconText;
+    private TextView windSpeedText;
+    private TextView humidityText;
+    private TextView pressureText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +84,10 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        Log.e("TEST", response.toString());
+                        Weather weather = new Weather(response);
+                        updateWeather(weather.city, weather.temperature, weather.description, weather.iconUrl, weather.windSpeed, weather.humidity, weather.pressure);
+
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -81,6 +99,19 @@ public class HomeFragment extends Fragment {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
+
+
+    private void updateWeather(String cityValue, String temperatureValue, String descriptionValue, String iconUrl, String windSpeedValue, String humidityValue, String pressureValue){
+        cityText.setText(cityValue);
+        temperatureText.setText(temperatureValue);
+        weatherDescriptionText.setText(descriptionValue);
+        windSpeedText.setText(windSpeedValue);
+        humidityText.setText(humidityValue);
+        pressureText.setText(pressureValue);
+        Picasso.get().load(iconUrl).into(weatherIconText);
+
+    }
+
 
     private void updateGPS() {
         // Get permission from user
@@ -128,13 +159,23 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
+        //Get views
+        this.cityText = binding.city;
+        this.temperatureText = binding.temperature;
+        this.weatherDescriptionText = binding.description;
+        this.weatherIconText = binding.weatherIcon;
+        this.windSpeedText = binding.windSpeed;
+        this.humidityText = binding.humidity;
+        this.pressureText = binding.pressure;
+
+
+/*        final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
-        });
+        });*/
 
         return root;
     }
