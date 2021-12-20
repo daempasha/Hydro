@@ -1,4 +1,4 @@
-package com.example.hydro;
+package com.example.hydro.models;
 
 import android.util.Log;
 
