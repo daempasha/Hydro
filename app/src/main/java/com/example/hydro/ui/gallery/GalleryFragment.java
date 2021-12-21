@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,13 +63,16 @@ public class GalleryFragment extends Fragment {
                 }
                 else {
                     GenericTypeIndicator<HashMap<String, Todo>> tasksGTypeInd = new GenericTypeIndicator<HashMap<String, Todo>>() {};
+
                     Map<String, Todo> objectHashMap = tasks.getResult().getValue(tasksGTypeInd);
-                    List<Todo> todoList = new ArrayList<Todo>(objectHashMap.values());
 
-                    GalleryAdapter adapter = new GalleryAdapter(getActivity(), todoList );
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    if(objectHashMap != null) {
+                        List<Todo> todoList = new ArrayList<Todo>(objectHashMap.values());
+                        GalleryAdapter adapter = new GalleryAdapter(getActivity(), todoList);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+                    }
 
                 }
             }

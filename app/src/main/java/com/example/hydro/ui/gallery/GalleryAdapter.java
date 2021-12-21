@@ -15,6 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hydro.R;
 import com.example.hydro.models.Todo;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +28,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     List<Todo>  data;
     Context context;
+    private FirebaseDatabase database;
 
     public GalleryAdapter(Context ct, List<Todo>  data){
         this.context = ct;
@@ -34,6 +40,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.todo_row, parent, false);
+        database = FirebaseDatabase.getInstance();
 
 
 
@@ -48,11 +55,23 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 if(holder.todoCheck.isChecked()){
-                    Toast toast = Toast.makeText(context, "Task has been completed.", Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast toast = Toast.makeText(context, R.string.task_deleted_successfully, Toast.LENGTH_SHORT);
 
-                    todo.getId();
+                    DatabaseReference taskReference = database.getReference("tasks").child(todo.getId());
+                    taskReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            toast.setText(R.string.task_deleted_successfully);
+                            toast.show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            toast.setText(R.string.task_deleted_failure);
+                            toast.show();
 
+                        }
+                    });
 
                 }
             }
