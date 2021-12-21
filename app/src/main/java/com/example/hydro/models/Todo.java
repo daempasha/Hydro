@@ -3,6 +3,7 @@ package com.example.hydro.models;
 import java.util.Date;
 
 public class Todo {
+
     public String message;
     public Date dateCreated;
 
@@ -12,7 +13,7 @@ public class Todo {
         this.dateCreated = new Date();
     }
 
-    public Todo(String message){
+    public Todo(String id, String message){
         this.message = message;
         this.dateCreated = new Date();
     }
@@ -32,4 +33,6 @@ public class Todo {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+
 }
