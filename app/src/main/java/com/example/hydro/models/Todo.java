@@ -4,16 +4,19 @@ import java.util.Date;
 
 public class Todo {
 
+    public String id;
     public String message;
     public Date dateCreated;
 
 
     public Todo(){
+        this.id = "";
         this.message = "";
         this.dateCreated = new Date();
     }
 
     public Todo(String id, String message){
+        this.id = id;
         this.message = message;
         this.dateCreated = new Date();
     }
@@ -34,5 +37,12 @@ public class Todo {
         this.dateCreated = dateCreated;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
 }

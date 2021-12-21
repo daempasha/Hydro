@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hydro.R;
 import com.example.hydro.databinding.FragmentGalleryBinding;
@@ -28,13 +31,18 @@ import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GalleryFragment extends Fragment {
     private FragmentGalleryBinding binding;
     private FirebaseDatabase database;
     private FloatingActionButton actionButton;
+    private RecyclerView recyclerView;
 
+    public void updateRecyclerView(){
+
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +50,7 @@ public class GalleryFragment extends Fragment {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        this.recyclerView = binding.recyclerView;
         //Database
         database = FirebaseDatabase.getInstance();
 
@@ -54,16 +63,21 @@ public class GalleryFragment extends Fragment {
                 else {
                     GenericTypeIndicator<HashMap<String, Todo>> tasksGTypeInd = new GenericTypeIndicator<HashMap<String, Todo>>() {};
                     Map<String, Todo> objectHashMap = tasks.getResult().getValue(tasksGTypeInd);
-                    ArrayList<Todo> objectArrayList = new ArrayList<Todo>(objectHashMap.values());
+                    List<Todo> todoList = new ArrayList<Todo>(objectHashMap.values());
 
-                    Log.e("TEST", objectArrayList.get(0).message);
+                    GalleryAdapter adapter = new GalleryAdapter(getActivity(), todoList );
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
                 }
             }
         });
-//        DatabaseReference tasksRef = database.getReference("tasks");
-//        Todo todo = new Todo("TestingFFFF");
-//        tasksRef.push().setValue(todo);
+
+//        DatabaseReference tasksRef = database.getReference("tasks").push();
+//        String id = tasksRef.getKey();
+//        Todo todo = new Todo(id, "Put the washing out");
+//        tasksRef.setValue(todo);
 
         this.actionButton = binding.addTodoButton;
         actionButton.setOnClickListener(new View.OnClickListener(){
