@@ -47,10 +47,16 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         return new MyViewHolder(view);
     }
 
+    public void removeTask(int position){
+        data.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Todo todo = data.get(position);
         holder.todoDescription.setText(todo.message);
+        holder.todoCheck.setSelected(false);
         holder.todoCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +69,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                         public void onSuccess(Void unused) {
                             toast.setText(R.string.task_deleted_successfully);
                             toast.show();
+
+                            removeTask(holder.getAdapterPosition());
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
