@@ -3,22 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/drawable/ic_launcher_background.xml" value="0.49074074074074076" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.49074074074074076" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.49074074074074076" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/drawable/ic_wind.xml" value="0.49074074074074076" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/drawable/side_nav_bar.xml" value="0.49074074074074076" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/app_bar_main.xml" value="0.5541666666666667" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/content_main.xml" value="0.25" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_gallery.xml" value="0.25" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_home.xml" value="0.33" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_slideshow.xml" value="0.5541666666666667" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_todo.xml" value="0.5" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/nav_header_main.xml" value="0.5541666666666667" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/todo_row.xml" value="0.22" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/menu/activity_main_drawer.xml" value="0.3307291666666667" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.5703125" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/activity_main.xml" value="0.48867753623188404" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_dashboard.xml" value="0.3307291666666667" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_home.xml" value="0.3307291666666667" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_notifications.xml" value="0.3307291666666667" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_todo.xml" value="0.33" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_weather.xml" value="0.33" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/todo_row.xml" value="0.3307291666666667" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/menu/bottom_nav_menu.xml" value="0.5541666666666667" />
       </map>
     </option>
   </component>

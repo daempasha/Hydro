@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hydro.databinding.FragmentTodoBinding;
-import com.example.hydro.databinding.FragmentWeatherBinding;
 import com.example.hydro.models.Todo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,15 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 public class TodoFragment extends Fragment {
+
     private FragmentTodoBinding binding;
     private FirebaseDatabase database;
     private FloatingActionButton actionButton;
     private RecyclerView recyclerView;
-
-    public void updateRecyclerView(){
-
-    }
-
+    
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -43,8 +39,8 @@ public class TodoFragment extends Fragment {
         View root = binding.getRoot();
 
         this.recyclerView = binding.recyclerView;
-        //Database
         database = FirebaseDatabase.getInstance();
+
 
         Task<DataSnapshot> data = database.getReference("tasks").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -69,11 +65,6 @@ public class TodoFragment extends Fragment {
             }
         });
 
-//        DatabaseReference tasksRef = database.getReference("tasks").push();
-//        String id = tasksRef.getKey();
-//        Todo todo = new Todo(id, "Put the washing out");
-//        tasksRef.setValue(todo);
-
         this.actionButton = binding.addTodoButton;
         actionButton.setOnClickListener(new View.OnClickListener(){
 
@@ -82,9 +73,6 @@ public class TodoFragment extends Fragment {
 
             }
         });
-
-
-
 
         return root;
     }

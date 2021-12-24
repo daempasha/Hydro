@@ -35,7 +35,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 
-
 public class WeatherFragment extends Fragment {
 
     private FragmentWeatherBinding binding;
