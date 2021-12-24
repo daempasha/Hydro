@@ -82,7 +82,7 @@
                 android:id="@+id/windSpeed"
                 android:layout_width="77dp"
                 android:layout_height="wrap_content"
-                android:text="1 m/s"
+                android:text="0 m/s"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -104,7 +104,7 @@
                 android:id="@+id/humidity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="80%"
+                android:text="0%"
                 android:textAlignment="center" />
         </LinearLayout>
 

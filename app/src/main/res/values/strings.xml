@@ -25,5 +25,6 @@
 
     <string name="task_deleted_successfully">Task has been completed.</string>
     <string name="task_deleted_failure">Could not delete task at this moment. Please check internet connectivity.</string>
+    <string name="noLocationError">Error could not retrieve current location.</string>
 
 </resources>

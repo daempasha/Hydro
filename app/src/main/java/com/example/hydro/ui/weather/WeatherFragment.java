@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,14 @@ public class WeatherFragment extends Fragment {
 
 
     private void updateWeather(String cityValue, String temperatureValue, String descriptionValue, String iconUrl, String windSpeedValue, String humidityValue, String pressureValue){
+        Log.e("TEST", "cityValue is:" + cityValue);
+        Log.e("TEST", "tempValue is:" + temperatureValue);
+        Log.e("TEST", descriptionValue);
+        Log.e("TEST", iconUrl);
+        Log.e("TEST", windSpeedValue);
+        Log.e("TEST", humidityValue);
+        Log.e("TEST", pressureValue);
+
         cityText.setText(cityValue);
         temperatureText.setText(temperatureValue);
         weatherDescriptionText.setText(descriptionValue);
@@ -114,12 +123,18 @@ public class WeatherFragment extends Fragment {
                 @Override
                 public void onSuccess(Location location) {
                     //Got permission
-                    double latitude, longitude;
+                    if(location != null){
 
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
+                        double latitude, longitude;
 
-                    getWeatherForLocation(latitude, longitude);
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+
+                        getWeatherForLocation(latitude, longitude);
+                    } else {
+                        Toast.makeText(getActivity(), R.string.noLocationError, Toast.LENGTH_LONG).show();
+                    }
+
                 }
             });
         } else {
