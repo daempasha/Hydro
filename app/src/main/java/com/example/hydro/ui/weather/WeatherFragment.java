@@ -33,7 +33,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-
+import com.squareup.picasso.Picasso;
 
 public class WeatherFragment extends Fragment {
 

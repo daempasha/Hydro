@@ -41,6 +41,7 @@ public class TodoFragment extends Fragment {
         this.recyclerView = binding.recyclerView;
         database = FirebaseDatabase.getInstance();
 
+
         Task<DataSnapshot> data = database.getReference("tasks").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> tasks) {
