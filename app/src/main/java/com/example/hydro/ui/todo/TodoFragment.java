@@ -1,28 +1,23 @@
-package com.example.hydro.ui.dashboard;
+package com.example.hydro.ui.todo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.hydro.R;
-import com.example.hydro.databinding.FragmentDashboardBinding;
+import com.example.hydro.databinding.FragmentTodoBinding;
 
-public class DashboardFragment extends Fragment {
+public class TodoFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentTodoBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentTodoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;
