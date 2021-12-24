@@ -1,4 +1,4 @@
-package com.example.hydro.ui.home;
+package com.example.hydro.ui.weather;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -26,8 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hydro.R;
+import com.example.hydro.databinding.FragmentWeatherBinding;
 import com.example.hydro.models.Weather;
-import com.example.hydro.databinding.FragmentHomeBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -35,9 +35,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 
 
-public class HomeFragment extends Fragment {
+public class WeatherFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentWeatherBinding binding;
 
 
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentWeatherBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         //Get views

@@ -1,12 +1,10 @@
-package com.example.hydro.ui.gallery;
+package com.example.hydro.ui.todo;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.Gallery;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,20 +15,18 @@ import com.example.hydro.R;
 import com.example.hydro.models.Todo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
-import java.util.Map;
 
-public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {
+public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> {
 
     List<Todo>  data;
     Context context;
     private FirebaseDatabase database;
 
-    public GalleryAdapter(Context ct, List<Todo>  data){
+    public TodoAdapter(Context ct, List<Todo>  data){
         this.context = ct;
         this.data = data;
     }

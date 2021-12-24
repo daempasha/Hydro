@@ -1,42 +1,33 @@
-package com.example.hydro.ui.gallery;
+package com.example.hydro.ui.todo;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hydro.R;
-import com.example.hydro.databinding.FragmentGalleryBinding;
-import com.example.hydro.databinding.FragmentHomeBinding;
+import com.example.hydro.databinding.FragmentTodoBinding;
+import com.example.hydro.databinding.FragmentWeatherBinding;
 import com.example.hydro.models.Todo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GalleryFragment extends Fragment {
-    private FragmentGalleryBinding binding;
+public class TodoFragment extends Fragment {
+    private FragmentTodoBinding binding;
     private FirebaseDatabase database;
     private FloatingActionButton actionButton;
     private RecyclerView recyclerView;
@@ -48,7 +39,7 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentTodoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         this.recyclerView = binding.recyclerView;
@@ -68,7 +59,7 @@ public class GalleryFragment extends Fragment {
 
                     if(objectHashMap != null) {
                         List<Todo> todoList = new ArrayList<Todo>(objectHashMap.values());
-                        GalleryAdapter adapter = new GalleryAdapter(getActivity(), todoList);
+                        TodoAdapter adapter = new TodoAdapter(getActivity(), todoList);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

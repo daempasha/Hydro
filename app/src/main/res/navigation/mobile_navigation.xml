@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.hydro.ui.home.HomeFragment"
+        android:name="com.example.hydro.ui.weather.WeatherFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_weather" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.hydro.ui.gallery.GalleryFragment"
+        android:name="com.example.hydro.ui.todo.TodoFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_todo" />
 
     <fragment
         android:id="@+id/nav_slideshow"
