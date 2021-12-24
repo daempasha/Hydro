@@ -1,4 +1,4 @@
-package com.example.hydro.ui.models;
+package com.example.hydro.models;
 
 import java.util.Date;
 

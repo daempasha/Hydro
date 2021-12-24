@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "579989459506",
+    "firebase_url": "https://hydro-99e72-default-rtdb.firebaseio.com",
+    "project_id": "hydro-99e72",
+    "storage_bucket": "hydro-99e72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579989459506:android:808bb0d5736f5c9f80222b",
+        "android_client_info": {
+          "package_name": "com.example.hydro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579989459506-36vme6dss4sjvcq31msadendte2abt9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAYO25VB2EK_xTQGMozEFPzKbLKxRxudo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579989459506-36vme6dss4sjvcq31msadendte2abt9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

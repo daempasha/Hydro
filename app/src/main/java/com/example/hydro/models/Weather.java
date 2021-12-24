@@ -1,6 +1,4 @@
-package com.example.hydro.ui.models;
-
-import android.util.Log;
+package com.example.hydro.models;
 
 import org.json.JSONArray;
 import org.json.JSONException;
