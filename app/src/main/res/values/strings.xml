@@ -31,5 +31,9 @@
     <string name="noLocationError">Error could not retrieve current location.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="date_picker_text">Select due date </string>
+    <string name="date_picker_default">No date</string>
+    <string name="add_todo">Add todo</string>
+
     <string name="todoDescriptionHint">Description</string>
 </resources>
