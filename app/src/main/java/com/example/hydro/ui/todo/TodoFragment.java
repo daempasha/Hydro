@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hydro.R;
 import com.example.hydro.databinding.FragmentTodoBinding;
 import com.example.hydro.models.Todo;
+import com.example.hydro.ui.addTodo.AddTodoFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,11 +73,19 @@ public class TodoFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                openAddTodoFragment();
 
             }
         });
 
         return root;
+    }
+
+    private void openAddTodoFragment() {
+        AddTodoFragment addTodoFragment = new AddTodoFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_activity_main, addTodoFragment);
+        transaction.commit();
     }
 
     @Override
