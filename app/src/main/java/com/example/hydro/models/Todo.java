@@ -6,19 +6,19 @@ public class Todo {
 
     public String id;
     public String message;
-    public Date dateCreated;
+    public Long dateDue;
 
 
     public Todo(){
         this.id = "";
         this.message = "";
-        this.dateCreated = new Date();
+        this.dateDue = null;
     }
 
-    public Todo(String id, String message){
+    public Todo(String id, String message, Long timestamp){
         this.id = id;
         this.message = message;
-        this.dateCreated = new Date();
+        this.dateDue = timestamp;
     }
 
     public String getMessage() {
@@ -29,12 +29,12 @@ public class Todo {
         this.message = message;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
+    public Long getDateDue() {
+        return dateDue;
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setDateDue(Long dateCreated) {
+        this.dateDue = dateCreated;
     }
 
     public String getId() {

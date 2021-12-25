@@ -18,10 +18,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.hydro.R;
+import com.example.hydro.models.Todo;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,10 +36,13 @@ import java.util.Locale;
 
 public class AddTodoFragment extends Fragment {
 
-    private TextView descriptionText;
-    private TextView dateView;
+    private TextInputLayout  descriptionText;
+    private TextInputLayout dateView;
     private Button submitButton;
     private MaterialDatePicker datePicker;
+    private Long timestamp;
+    private FirebaseDatabase database;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,8 +56,8 @@ public class AddTodoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        descriptionText = (TextView) view.findViewById(R.id.todoDescription);
-        dateView = (TextView) view.findViewById(R.id.todoDateView);
+        descriptionText = (TextInputLayout ) view.findViewById(R.id.todoDescriptionView);
+        dateView = (TextInputLayout ) view.findViewById(R.id.todoDateView);
         submitButton = (Button) view.findViewById(R.id.addTodoItemButton);
 
         CalendarConstraints.Builder calendarConstraintsBuilder = new CalendarConstraints.Builder().setValidator(DateValidatorPointForward.now());
@@ -62,15 +69,25 @@ public class AddTodoFragment extends Fragment {
                 .setCalendarConstraints(calendarConstraints)
                 .build();
 
+        dateView.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateView.getEditText().setText(null);
+                timestamp = null;
+
+            }
+        });
         datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
             @Override
             public void onPositiveButtonClick(Object selection) {
-                Long timestamp = (Long) selection;
-                setDateText(timestamp);
+                timestamp = (Long) selection;
+                setDateText();
             }
         });
 
-        dateView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        database = FirebaseDatabase.getInstance();
+
+        dateView.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
@@ -80,21 +97,28 @@ public class AddTodoFragment extends Fragment {
             }
         });
 
-        dateView.setOnClickListener(new View.OnClickListener() {
+        dateView.getEditText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();
 
             }
         });
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pushTodoToDatabase();
+            }
+        });
     }
 
-    private void setDateText(Long timestamp) {
+    private void setDateText() {
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(timestamp);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm");
-        dateView.setText(simpleDateFormat.format(calendar.getTime()));
+        dateView.getEditText().setText(simpleDateFormat.format(calendar.getTime()));
 
     }
 
@@ -103,6 +127,18 @@ public class AddTodoFragment extends Fragment {
             datePicker.show(getParentFragmentManager(), "tag");
 
         }
+    }
+
+    private void pushTodoToDatabase(){
+        String description = descriptionText.getEditText().getText().toString();
+        Log.e("TEST", description);
+        Log.e("TEST", String.valueOf(timestamp));
+
+        DatabaseReference databaseReference = database.getReference("todos").push();
+        String key = databaseReference.getKey();
+        Todo todo = new Todo(key, description, timestamp);
+
+        databaseReference.setValue(todo);
     }
 
 

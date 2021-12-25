@@ -59,7 +59,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
                 if(holder.todoCheck.isChecked()){
                     Toast toast = Toast.makeText(context, R.string.task_deleted_successfully, Toast.LENGTH_SHORT);
 
-                    DatabaseReference taskReference = database.getReference("tasks").child(todo.getId());
+                    DatabaseReference taskReference = database.getReference("todos").child(todo.getId());
                     taskReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {

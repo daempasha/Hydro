@@ -41,11 +41,12 @@ public class TodoFragment extends Fragment {
         binding = FragmentTodoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        this.recyclerView = binding.recyclerView;
+        recyclerView = binding.recyclerView;
+
         database = FirebaseDatabase.getInstance();
 
 
-        Task<DataSnapshot> data = database.getReference("tasks").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        Task<DataSnapshot> data = database.getReference("todos  ").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> tasks) {
                 if (!tasks.isSuccessful()) {

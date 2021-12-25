@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField"
+            android:id="@+id/todoDescriptionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/todoDescriptionHint"
@@ -35,13 +35,14 @@
             android:layout_height="30dp" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/todoDateView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/todoDateHint"
-            app:startIconDrawable="@drawable/ic_baseline_calendar_today_24">
+            app:startIconDrawable="@drawable/ic_baseline_calendar_today_24"
+            app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/todoDateView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
