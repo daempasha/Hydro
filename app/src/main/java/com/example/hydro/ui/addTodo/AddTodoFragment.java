@@ -21,9 +21,16 @@ import com.example.hydro.R;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
-public class AddTodoFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class AddTodoFragment extends Fragment {
 
     private TextView descriptionText;
     private TextView dateView;
@@ -49,11 +56,19 @@ public class AddTodoFragment extends Fragment implements DatePickerDialog.OnDate
         CalendarConstraints.Builder calendarConstraintsBuilder = new CalendarConstraints.Builder().setValidator(DateValidatorPointForward.now());
         CalendarConstraints calendarConstraints = calendarConstraintsBuilder.build();
 
+
         datePicker =  MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date")
                 .setCalendarConstraints(calendarConstraints)
                 .build();
 
+        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Object selection) {
+                Long timestamp = (Long) selection;
+                setDateText(timestamp);
+            }
+        });
 
         dateView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -74,6 +89,15 @@ public class AddTodoFragment extends Fragment implements DatePickerDialog.OnDate
         });
     }
 
+    private void setDateText(Long timestamp) {
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(timestamp);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm");
+        dateView.setText(simpleDateFormat.format(calendar.getTime()));
+
+    }
+
     private void showDatePicker() {
         if(!datePicker.isVisible()){
             datePicker.show(getParentFragmentManager(), "tag");
@@ -81,8 +105,5 @@ public class AddTodoFragment extends Fragment implements DatePickerDialog.OnDate
         }
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-    }
 }
