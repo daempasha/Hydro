@@ -36,4 +36,7 @@
     <string name="add_todo">Add todo</string>
 
     <string name="todoDescriptionHint">Description</string>
+    <string name="todoDateHint">Date</string>
+    <string name="addTodoItemButton">Add todo</string>
+
 </resources>
