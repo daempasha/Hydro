@@ -35,6 +35,7 @@ import com.example.hydro.models.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 
@@ -60,19 +61,9 @@ public class WeatherFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         localDatabaseHandler = new DatabaseHandler(getActivity(), "hydro", null, 1);
-        Coordinates coordinates = localDatabaseHandler.getCoordinates();
-        double latitude = coordinates.getLatitude();
-        double longitude = coordinates.getLongitude();
-
-        if(latitude == 0.0f || longitude == 0.0f){
-            Log.d("WEATHER", "No latitude or longitude stored");
-            locationRequest = LocationRequest.create();
-            locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-            updateGPS();
-        }else {
-            Log.d("WEATHER", "Have longitude and latitude stored");
-            getWeatherForLocation(latitude, longitude);
-        }
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        updateGPS();
 
     }
 
@@ -105,14 +96,6 @@ public class WeatherFragment extends Fragment {
 
 
     private void updateWeather(String cityValue, String temperatureValue, String descriptionValue, String iconUrl, String windSpeedValue, String humidityValue, String pressureValue){
-        Log.e("TEST", "cityValue is:" + cityValue);
-        Log.e("TEST", "tempValue is:" + temperatureValue);
-        Log.e("TEST", descriptionValue);
-        Log.e("TEST", iconUrl);
-        Log.e("TEST", windSpeedValue);
-        Log.e("TEST", humidityValue);
-        Log.e("TEST", pressureValue);
-
         cityText.setText(cityValue);
         temperatureText.setText(temperatureValue);
         weatherDescriptionText.setText(descriptionValue);
@@ -123,6 +106,21 @@ public class WeatherFragment extends Fragment {
 
     }
 
+
+    private void handleFailedLocationRequest(){
+        Coordinates coordinates = localDatabaseHandler.getCoordinates();
+        double latitude = coordinates.getLatitude();
+        double longitude = coordinates.getLongitude();
+
+        if(latitude != 0.0f && longitude != 0.0f){
+            getWeatherForLocation(latitude, longitude);
+            Toast.makeText(getActivity(), "Could not get current location, currently using cached location.", Toast.LENGTH_LONG).show();
+
+        }else {
+            Toast.makeText(getActivity(), "Could not get current location or cached location.", Toast.LENGTH_LONG).show();
+
+        }
+    }
 
     private void updateGPS() {
         // Get permission from user
@@ -149,9 +147,14 @@ public class WeatherFragment extends Fragment {
 
 
                     } else {
-                        Toast.makeText(getActivity(), R.string.noLocationError, Toast.LENGTH_LONG).show();
+                        handleFailedLocationRequest();
                     }
 
+                }
+            }).addOnFailureListener(getActivity(), new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    handleFailedLocationRequest();
                 }
             });
         } else {

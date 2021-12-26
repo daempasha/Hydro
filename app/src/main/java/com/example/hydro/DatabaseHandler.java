@@ -59,7 +59,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
         try {
-            db.execSQL("INSERT INTO " + TABLE_WEATHER + " VALUES (" + "'CRD'" + ", " + latitude + ", " + longitude + ");");
+            db.execSQL("REPLACE INTO " + TABLE_WEATHER + " VALUES (" + "'CRD'" + ", " + latitude + ", " + longitude + ");");
 
         } catch (Exception e){
             Log.e("TEST", e.toString());
