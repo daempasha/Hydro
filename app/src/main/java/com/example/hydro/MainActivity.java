@@ -1,5 +1,6 @@
 package com.example.hydro;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        DatabaseHandler dbHandler = new DatabaseHandler(this, "hydro", null, 1);
+        SQLiteDatabase database = dbHandler.getReadableDatabase();
+
+        dbHandler.onCreate(database);
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
