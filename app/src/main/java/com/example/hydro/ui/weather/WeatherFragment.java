@@ -2,6 +2,7 @@ package com.example.hydro.ui.weather;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +27,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hydro.DatabaseHandler;
 import com.example.hydro.R;
 import com.example.hydro.databinding.FragmentWeatherBinding;
+import com.example.hydro.models.Coordinates;
 import com.example.hydro.models.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -39,6 +42,7 @@ public class WeatherFragment extends Fragment {
 
     private FragmentWeatherBinding binding;
 
+    private DatabaseHandler localDatabaseHandler;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
@@ -55,10 +59,21 @@ public class WeatherFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        localDatabaseHandler = new DatabaseHandler(getActivity(), "hydro", null, 1);
+        Coordinates coordinates = localDatabaseHandler.getCoordinates();
+        double latitude = coordinates.getLatitude();
+        double longitude = coordinates.getLongitude();
 
-        updateGPS();
+        if(latitude == 0.0f || longitude == 0.0f){
+            Log.d("WEATHER", "No latitude or longitude stored");
+            locationRequest = LocationRequest.create();
+            locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+            updateGPS();
+        }else {
+            Log.d("WEATHER", "Have longitude and latitude stored");
+            getWeatherForLocation(latitude, longitude);
+        }
+
     }
 
     private void getWeatherForLocation(double latitude, double longitude) {
@@ -130,6 +145,9 @@ public class WeatherFragment extends Fragment {
                         longitude = location.getLongitude();
 
                         getWeatherForLocation(latitude, longitude);
+                        localDatabaseHandler.addCoordinates(latitude, longitude);
+
+
                     } else {
                         Toast.makeText(getActivity(), R.string.noLocationError, Toast.LENGTH_LONG).show();
                     }
