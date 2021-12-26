@@ -142,7 +142,7 @@ public class AddTodoFragment extends Fragment {
 
             DatabaseReference databaseReference = database.getReference("todos").push();
             String key = databaseReference.getKey();
-            Todo todo = new Todo(key, description, timestamp);
+            Todo todo = new Todo(key, description, timestamp, new Date().getTime());
 
             databaseReference.setValue(todo);
 
