@@ -46,7 +46,7 @@ public class TodoFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
 
 
-        Task<DataSnapshot> data = database.getReference("todos  ").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        Task<DataSnapshot> data = database.getReference("todos").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> tasks) {
                 if (!tasks.isSuccessful()) {
@@ -85,7 +85,7 @@ public class TodoFragment extends Fragment {
     private void openAddTodoFragment() {
         AddTodoFragment addTodoFragment = new AddTodoFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.nav_host_fragment_activity_main, addTodoFragment);
+        transaction.replace(R.id.nav_host_fragment_activity_main, addTodoFragment).addToBackStack(null);
         transaction.commit();
     }
 
