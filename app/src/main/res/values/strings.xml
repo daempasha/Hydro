@@ -38,5 +38,7 @@
     <string name="todoDescriptionHint">Description</string>
     <string name="todoDateHint">Date</string>
     <string name="addTodoItemButton">Add todo</string>
+    <string name="date">Date</string>
+    <string name="todo_example">Put the washing out</string>
 
 </resources>

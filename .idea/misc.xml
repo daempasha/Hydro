@@ -13,7 +13,7 @@
         <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_notifications.xml" value="0.3307291666666667" />
         <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_todo.xml" value="0.33" />
         <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/fragment_weather.xml" value="0.33" />
-        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/todo_row.xml" value="0.67" />
+        <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/layout/todo_row.xml" value="0.5" />
         <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
         <entry key="..\:/Users/Daem/Documents/GitHub/Hydro/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.5703125" />
       </map>
@@ -24,5 +24,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.5" />
+      </ProjectState>
+    </option>
   </component>
 </project>

@@ -1,6 +1,7 @@
 package com.example.hydro.ui.todo;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> {
@@ -53,6 +56,16 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
         Todo todo = data.get(position);
         holder.todoDescription.setText(todo.message);
         holder.todoCheck.setSelected(false);
+
+        Long timestamp = todo.getDateDue();
+        if(timestamp != null){
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm");
+            holder.todoDate.setText(simpleDateFormat.format(timestamp));
+        }else {
+            holder.todoDate.setText("");
+        }
+
+
         holder.todoCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,12 +104,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         CheckBox todoCheck;
         TextView todoDescription;
+        TextView todoDate;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             todoCheck = itemView.findViewById(R.id.todoCheckbox);
             todoDescription = itemView.findViewById(R.id.todoDescription);
+            todoDate = itemView.findViewById(R.id.todoDate);
         }
     }
 }
