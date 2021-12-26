@@ -136,17 +136,22 @@ public class AddTodoFragment extends Fragment {
 
     private void pushTodoToDatabase(){
         String description = descriptionText.getEditText().getText().toString();
-        Log.e("TEST", description);
-        Log.e("TEST", String.valueOf(timestamp));
 
-        DatabaseReference databaseReference = database.getReference("todos").push();
-        String key = databaseReference.getKey();
-        Todo todo = new Todo(key, description, timestamp);
 
-        databaseReference.setValue(todo);
+        if(description.length() > 0) {
 
-        Toast.makeText(getContext(), "Created todo.", Toast.LENGTH_SHORT).show();
-        openTodoFragment();
+            DatabaseReference databaseReference = database.getReference("todos").push();
+            String key = databaseReference.getKey();
+            Todo todo = new Todo(key, description, timestamp);
+
+            databaseReference.setValue(todo);
+
+            Toast.makeText(getContext(), "Created todo", Toast.LENGTH_SHORT).show();
+            openTodoFragment();
+        } else {
+            Toast.makeText(getContext(), "There are some errors in the form. Please fix them before continuing", Toast.LENGTH_SHORT).show();
+            descriptionText.setError("Please fill out the description");
+        }
     }
 
     private void openTodoFragment() {
