@@ -1,6 +1,8 @@
 package com.example.hydro.ui.weather;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
@@ -20,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -69,9 +72,18 @@ public class WeatherFragment extends Fragment {
 
     private void getWeatherForLocation(double latitude, double longitude) {
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude + "&lon=" + longitude + "&appid=" + getResources().getString(R.string.openweathermap_api_key);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String temperature_preference = sharedPreferences.getString("temperature_preference", "metric");
 
+
+        Log.e("TEST", temperature_preference);
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        StringBuilder urlBuilder = new StringBuilder().append("https://api.openweathermap.org/data/2.5/weather?lat=").append(latitude).append("&lon=").append(longitude).append("&appid=").append(getResources().getString(R.string.openweathermap_api_key));
+        if(temperature_preference != "kelvin"){
+            urlBuilder.append("&units=").append(temperature_preference);
+        }
+
+        String url = urlBuilder.toString();
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="Weather preferences">
+        <ListPreference
+            android:contentDescription="Format of the temperature (default: Celsius)"
+            android:defaultValue="1"
+            android:entries="@array/temperature_formats"
+            android:entryValues="@array/temperature_values"
+            android:key="temperature_preference"
+            android:title="Temperature format" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
