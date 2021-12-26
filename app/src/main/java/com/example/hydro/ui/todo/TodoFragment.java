@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +63,18 @@ public class TodoFragment extends Fragment {
 
                     if(objectHashMap != null) {
                         List<Todo> todoList = new ArrayList<Todo>(objectHashMap.values());
+                        Collections.sort(todoList, new Comparator<Todo>() {
+                            @Override
+                            public int compare(Todo o1, Todo o2) {
+                                if(o1.dateCreated > o2.dateCreated){
+                                    return 1;
+                                } else if(o1.dateCreated < o2.dateCreated){
+                                    return -1;
+                                } else {
+                                    return 0;
+                                }
+                            }
+                        });
                         TodoAdapter adapter = new TodoAdapter(getActivity(), todoList);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
