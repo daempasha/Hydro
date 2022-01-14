@@ -1,7 +1,8 @@
 package com.example.hydro.ui.todo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> {
@@ -51,6 +51,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
         notifyItemRemoved(position);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Todo todo = data.get(position);
@@ -60,6 +61,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
         Long timestamp = todo.getDateDue();
         if(timestamp != null){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm");
+
+            Long currentTime = System.currentTimeMillis();
+
+            if(currentTime > timestamp){
+                holder.todoDate.setTextColor(Color.RED);
+            }
+
             holder.todoDate.setText(simpleDateFormat.format(timestamp));
         }else {
             holder.todoDate.setText("");
