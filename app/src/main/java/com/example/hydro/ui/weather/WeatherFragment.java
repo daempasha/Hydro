@@ -1,10 +1,8 @@
 package com.example.hydro.ui.weather;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -108,13 +106,17 @@ public class WeatherFragment extends Fragment {
 
 
     private void updateWeather(String cityValue, String temperatureValue, String descriptionValue, String iconUrl, String windSpeedValue, String humidityValue, String pressureValue){
-        cityText.setText(cityValue);
-        temperatureText.setText(temperatureValue);
-        weatherDescriptionText.setText(descriptionValue);
-        windSpeedText.setText(windSpeedValue);
-        humidityText.setText(humidityValue);
-        pressureText.setText(pressureValue);
-        Picasso.get().load(iconUrl).into(weatherIconText);
+
+        if(cityText != null && temperatureText != null && weatherDescriptionText != null && windSpeedText != null && humidityText != null && pressureText != null && weatherIconText != null){
+            cityText.setText(cityValue);
+            temperatureText.setText(temperatureValue);
+            weatherDescriptionText.setText(descriptionValue);
+            windSpeedText.setText(windSpeedValue);
+            humidityText.setText(humidityValue);
+            pressureText.setText(pressureValue);
+            Picasso.get().load(iconUrl).into(weatherIconText);
+
+        }
 
     }
 
@@ -133,6 +135,9 @@ public class WeatherFragment extends Fragment {
 
         }
     }
+
+
+
 
     private void updateGPS() {
         // Get permission from user
