@@ -68,6 +68,16 @@ public class WeatherFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        localDatabaseHandler = new DatabaseHandler(getActivity(), "hydro", null, 1);
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        updateGPS();
+    }
+
     private void getWeatherForLocation(double latitude, double longitude) {
         // Instantiate the RequestQueue.
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
