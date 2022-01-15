@@ -104,7 +104,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
                                 @Override
                                 public void onDismissed(Snackbar transientBottomBar, int event) {
                                     super.onDismissed(transientBottomBar, event);
-                                    if (event != DISMISS_EVENT_ACTION){
+                                    if (event != DISMISS_EVENT_ACTION && holder.todoCheck.isChecked()){
                                         DatabaseReference taskReference = database.getReference("todos").child(todo.getId());
                                         taskReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
