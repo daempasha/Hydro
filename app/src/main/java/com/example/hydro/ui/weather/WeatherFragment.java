@@ -138,10 +138,10 @@ public class WeatherFragment extends Fragment {
 
         if(latitude != 0.0f && longitude != 0.0f){
             getWeatherForLocation(latitude, longitude);
-            Toast.makeText(getActivity(), "Could not get current location, currently using cached location.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.fail_location, Toast.LENGTH_LONG).show();
 
         }else {
-            Toast.makeText(getActivity(), "Could not get current location or cached location.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.no_location, Toast.LENGTH_LONG).show();
 
         }
     }
