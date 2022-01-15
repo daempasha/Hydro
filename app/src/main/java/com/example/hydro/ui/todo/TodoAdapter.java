@@ -1,8 +1,9 @@
 package com.example.hydro.ui.todo;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.hydro.R;
 import com.example.hydro.models.Todo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -51,7 +53,16 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
         notifyItemRemoved(position);
     }
 
-    @SuppressLint("ResourceAsColor")
+    public void cancelDelete(MyViewHolder holder){
+        holder.todoDescription.setPaintFlags(0);
+
+        if(holder.todoCheck.isChecked()){
+            holder.todoCheck.setChecked(false);
+        }
+
+    }
+
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Todo todo = data.get(position);
@@ -78,27 +89,48 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 if(holder.todoCheck.isChecked()){
-                    Toast toast = Toast.makeText(context, R.string.task_deleted_successfully, Toast.LENGTH_SHORT);
+                    Activity activity = (Activity)context;
 
-                    DatabaseReference taskReference = database.getReference("todos").child(todo.getId());
-                    taskReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            toast.setText(R.string.task_deleted_successfully);
-                            toast.show();
+                    holder.todoDescription.setPaintFlags(holder.todoDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                            removeTask(holder.getAdapterPosition());
+                    Snackbar.make(activity.findViewById(R.id.container), R.string.delete_todo, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.undo_action, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    cancelDelete(holder);
+                                }
+                            })
+                            .addCallback(new Snackbar.Callback(){
+                                @Override
+                                public void onDismissed(Snackbar transientBottomBar, int event) {
+                                    super.onDismissed(transientBottomBar, event);
+                                    if (event != DISMISS_EVENT_ACTION){
+                                        DatabaseReference taskReference = database.getReference("todos").child(todo.getId());
+                                        taskReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                removeTask(holder.getAdapterPosition());
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            toast.setText(R.string.task_deleted_failure);
-                            toast.show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast toast = Toast.makeText(context, R.string.task_deleted_failure, Toast.LENGTH_SHORT);
+                                                toast.show();
 
-                        }
-                    });
+                                            }
+                                        });
+                                    }
 
+                                }
+                            })
+                            .show();
+
+
+
+
+                } else {
+                    cancelDelete(holder);
                 }
             }
         });
