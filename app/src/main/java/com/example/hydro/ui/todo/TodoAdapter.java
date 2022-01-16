@@ -14,12 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hydro.FirebaseHandler;
 import com.example.hydro.R;
 import com.example.hydro.models.Todo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +30,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
     List<Todo>  data;
     Context context;
     private FirebaseDatabase database;
+    private FirebaseHandler firebaseHandler;
 
     public TodoAdapter(Context ct, List<Todo>  data){
         this.context = ct;
@@ -42,7 +43,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.todo_row, parent, false);
         database = FirebaseDatabase.getInstance();
-
+        firebaseHandler = new FirebaseHandler();
 
 
         return new MyViewHolder(view);
@@ -105,21 +106,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
                                 public void onDismissed(Snackbar transientBottomBar, int event) {
                                     super.onDismissed(transientBottomBar, event);
                                     if (event != DISMISS_EVENT_ACTION && holder.todoCheck.isChecked()){
-                                        DatabaseReference taskReference = database.getReference("todos").child(todo.getId());
-                                        taskReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        firebaseHandler.deleteTodo(todo, new OnSuccessListener<Void>() {
                                             @Override
-                                            public void onSuccess(Void unused) {
+                                            public void onSuccess(@NonNull Void unused) {
                                                 removeTask(holder.getAdapterPosition());
 
                                             }
-                                        }).addOnFailureListener(new OnFailureListener() {
+                                        }, new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 Toast toast = Toast.makeText(context, R.string.task_deleted_failure, Toast.LENGTH_SHORT);
                                                 toast.show();
-
                                             }
                                         });
+
                                     }
 
                                 }
