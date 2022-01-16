@@ -4,7 +4,6 @@ import com.example.hydro.models.Todo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,8 +17,8 @@ public class FirebaseHandler {
         database = FirebaseDatabase.getInstance();
     }
 
-    public Task<DataSnapshot> getTodos(OnCompleteListener<DataSnapshot> onCompleteListener){
-        return database.getReference("todos").get().addOnCompleteListener(onCompleteListener);
+    public void getTodos(OnCompleteListener<DataSnapshot> onCompleteListener){
+        database.getReference("todos").get().addOnCompleteListener(onCompleteListener);
     }
 
     public boolean pushTodo(String description, Long timestamp){

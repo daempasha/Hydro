@@ -49,7 +49,7 @@ public class TodoFragment extends Fragment {
         recyclerView = binding.recyclerView;
 
         FirebaseHandler firebaseHandler = new FirebaseHandler();
-        Task<DataSnapshot> data = firebaseHandler.getTodos(new OnCompleteListener<DataSnapshot>() {
+        firebaseHandler.getTodos(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> tasks) {
                 if (!tasks.isSuccessful()) {
