@@ -7,18 +7,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.example.hydro.ui.settings.SettingsActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.preference.PreferenceManager;
 
 import com.example.hydro.databinding.ActivityMainBinding;
+import com.example.hydro.ui.settings.SettingsActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_weather, R.id.navigation_todo)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
     }
 
     @Override

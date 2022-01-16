@@ -1,7 +1,9 @@
 package com.example.hydro.ui.todo;
 
+import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +14,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hydro.FirebaseHandler;
 import com.example.hydro.R;
 import com.example.hydro.models.Todo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> {
@@ -28,6 +30,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
     List<Todo>  data;
     Context context;
     private FirebaseDatabase database;
+    private FirebaseHandler firebaseHandler;
 
     public TodoAdapter(Context ct, List<Todo>  data){
         this.context = ct;
@@ -40,7 +43,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.todo_row, parent, false);
         database = FirebaseDatabase.getInstance();
-
+        firebaseHandler = new FirebaseHandler();
 
 
         return new MyViewHolder(view);
@@ -51,6 +54,16 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
         notifyItemRemoved(position);
     }
 
+    public void cancelDelete(MyViewHolder holder){
+        holder.todoDescription.setPaintFlags(0);
+
+        if(holder.todoCheck.isChecked()){
+            holder.todoCheck.setChecked(false);
+        }
+
+    }
+
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Todo todo = data.get(position);
@@ -60,6 +73,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
         Long timestamp = todo.getDateDue();
         if(timestamp != null){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm");
+
+            Long currentTime = System.currentTimeMillis();
+
+            if(currentTime > timestamp){
+                holder.todoDate.setTextColor(Color.RED);
+            }
+
             holder.todoDate.setText(simpleDateFormat.format(timestamp));
         }else {
             holder.todoDate.setText("");
@@ -70,27 +90,47 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 if(holder.todoCheck.isChecked()){
-                    Toast toast = Toast.makeText(context, R.string.task_deleted_successfully, Toast.LENGTH_SHORT);
+                    Activity activity = (Activity)context;
 
-                    DatabaseReference taskReference = database.getReference("todos").child(todo.getId());
-                    taskReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            toast.setText(R.string.task_deleted_successfully);
-                            toast.show();
+                    holder.todoDescription.setPaintFlags(holder.todoDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                            removeTask(holder.getAdapterPosition());
+                    Snackbar.make(activity.findViewById(R.id.container), R.string.delete_todo, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.undo_action, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    cancelDelete(holder);
+                                }
+                            })
+                            .addCallback(new Snackbar.Callback(){
+                                @Override
+                                public void onDismissed(Snackbar transientBottomBar, int event) {
+                                    super.onDismissed(transientBottomBar, event);
+                                    if (event != DISMISS_EVENT_ACTION && holder.todoCheck.isChecked()){
+                                        firebaseHandler.deleteTodo(todo, new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(@NonNull Void unused) {
+                                                removeTask(holder.getAdapterPosition());
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            toast.setText(R.string.task_deleted_failure);
-                            toast.show();
+                                            }
+                                        }, new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast toast = Toast.makeText(context, R.string.task_deleted_failure, Toast.LENGTH_SHORT);
+                                                toast.show();
+                                            }
+                                        });
 
-                        }
-                    });
+                                    }
 
+                                }
+                            })
+                            .show();
+
+
+
+
+                } else {
+                    cancelDelete(holder);
                 }
             }
         });

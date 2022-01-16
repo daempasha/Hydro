@@ -1,6 +1,5 @@
 package com.example.hydro.ui.todo;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hydro.DatabaseHandler;
+import com.example.hydro.FirebaseHandler;
 import com.example.hydro.R;
 import com.example.hydro.databinding.FragmentTodoBinding;
 import com.example.hydro.models.Todo;
@@ -48,9 +48,8 @@ public class TodoFragment extends Fragment {
 
         recyclerView = binding.recyclerView;
 
-        database = FirebaseDatabase.getInstance();
-
-        Task<DataSnapshot> data = database.getReference("todos").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        FirebaseHandler firebaseHandler = new FirebaseHandler();
+        Task<DataSnapshot> data = firebaseHandler.getTodos(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> tasks) {
                 if (!tasks.isSuccessful()) {
@@ -84,6 +83,7 @@ public class TodoFragment extends Fragment {
                 }
             }
         });
+
 
         this.actionButton = binding.addTodoButton;
         actionButton.setOnClickListener(new View.OnClickListener(){

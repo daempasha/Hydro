@@ -1,40 +1,29 @@
 package com.example.hydro.ui.addTodo;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.hydro.FirebaseHandler;
 import com.example.hydro.R;
-import com.example.hydro.models.Todo;
 import com.example.hydro.ui.todo.TodoFragment;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 
@@ -45,7 +34,7 @@ public class AddTodoFragment extends Fragment {
     private Button submitButton;
     private MaterialDatePicker datePicker;
     private Long timestamp;
-    private FirebaseDatabase database;
+    private FirebaseHandler firebaseHandler;
 
 
     @Override
@@ -56,11 +45,18 @@ public class AddTodoFragment extends Fragment {
 
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
 
+        firebaseHandler = new FirebaseHandler();
         descriptionText = (TextInputLayout ) view.findViewById(R.id.todoDescriptionView);
         dateView = (TextInputLayout ) view.findViewById(R.id.todoDateView);
         submitButton = (Button) view.findViewById(R.id.addTodoItemButton);
@@ -90,7 +86,6 @@ public class AddTodoFragment extends Fragment {
             }
         });
 
-        database = FirebaseDatabase.getInstance();
 
         dateView.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -139,15 +134,14 @@ public class AddTodoFragment extends Fragment {
 
 
         if(description.length() > 0) {
+            boolean pushTodo = firebaseHandler.pushTodo(description, timestamp);
 
-            DatabaseReference databaseReference = database.getReference("todos").push();
-            String key = databaseReference.getKey();
-            Todo todo = new Todo(key, description, timestamp, new Date().getTime());
+            if(pushTodo){
+                Toast.makeText(getContext(), "Created todo", Toast.LENGTH_SHORT).show();
+                openTodoFragment();
+            }
 
-            databaseReference.setValue(todo);
 
-            Toast.makeText(getContext(), "Created todo", Toast.LENGTH_SHORT).show();
-            openTodoFragment();
         } else {
             Toast.makeText(getContext(), "There are some errors in the form. Please fix them before continuing", Toast.LENGTH_SHORT).show();
             descriptionText.setError("Please fill out the description");

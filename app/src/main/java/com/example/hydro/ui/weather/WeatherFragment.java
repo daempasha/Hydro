@@ -1,10 +1,8 @@
 package com.example.hydro.ui.weather;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,6 +68,16 @@ public class WeatherFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        localDatabaseHandler = new DatabaseHandler(getActivity(), "hydro", null, 1);
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        updateGPS();
+    }
+
     private void getWeatherForLocation(double latitude, double longitude) {
         // Instantiate the RequestQueue.
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -108,13 +116,17 @@ public class WeatherFragment extends Fragment {
 
 
     private void updateWeather(String cityValue, String temperatureValue, String descriptionValue, String iconUrl, String windSpeedValue, String humidityValue, String pressureValue){
-        cityText.setText(cityValue);
-        temperatureText.setText(temperatureValue);
-        weatherDescriptionText.setText(descriptionValue);
-        windSpeedText.setText(windSpeedValue);
-        humidityText.setText(humidityValue);
-        pressureText.setText(pressureValue);
-        Picasso.get().load(iconUrl).into(weatherIconText);
+
+        if(cityText != null && temperatureText != null && weatherDescriptionText != null && windSpeedText != null && humidityText != null && pressureText != null && weatherIconText != null){
+            cityText.setText(cityValue);
+            temperatureText.setText(temperatureValue);
+            weatherDescriptionText.setText(descriptionValue);
+            windSpeedText.setText(windSpeedValue);
+            humidityText.setText(humidityValue);
+            pressureText.setText(pressureValue);
+            Picasso.get().load(iconUrl).into(weatherIconText);
+
+        }
 
     }
 
@@ -126,13 +138,16 @@ public class WeatherFragment extends Fragment {
 
         if(latitude != 0.0f && longitude != 0.0f){
             getWeatherForLocation(latitude, longitude);
-            Toast.makeText(getActivity(), "Could not get current location, currently using cached location.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.fail_location, Toast.LENGTH_LONG).show();
 
         }else {
-            Toast.makeText(getActivity(), "Could not get current location or cached location.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.no_location, Toast.LENGTH_LONG).show();
 
         }
     }
+
+
+
 
     private void updateGPS() {
         // Get permission from user
